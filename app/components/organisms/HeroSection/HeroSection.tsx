@@ -51,7 +51,7 @@ export default function HeroSection() {
           </div>
 
           <Image
-            src="/images/sepehrjo-hero-visual.png"
+            src="/images/herosection/sepehrjo-hero-visual.png"
             alt="hero"
             width={700}
             height={500}

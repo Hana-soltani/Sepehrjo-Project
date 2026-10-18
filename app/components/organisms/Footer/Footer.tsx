@@ -31,7 +31,7 @@ export default function Footer() {
 
                             <a href="#" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1">
                                 <Image
-                                    src="/images/instagram-icon.png"
+                                    src="/images/icons/instagram-icon.png"
                                     alt="Instagram"
                                     width={22}
                                     height={22}
@@ -40,7 +40,7 @@ export default function Footer() {
 
                             <a href="#" aria-label="Telegram" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1" >
                                 <Image
-                                    src="/images/telegram-icon.png"
+                                    src="/images/icons/telegram-icon.png"
                                     alt="Telegram"
                                     width={22}
                                     height={22}
@@ -49,7 +49,7 @@ export default function Footer() {
 
                             <a href="#" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1">
                                 <Image
-                                    src="/images/linkedin-icon.png"
+                                    src="/images/icons/linkedin-icon.png"
                                     alt="LinkedIn"
                                     width={22}
                                     height={22}
@@ -58,7 +58,7 @@ export default function Footer() {
 
                             <a href="#" aria-label="X" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1">
                                 <Image
-                                    src="/images/x-icon.png"
+                                    src="/images/icons/x-icon.png"
                                     alt="X"
                                     width={20}
                                     height={20}
