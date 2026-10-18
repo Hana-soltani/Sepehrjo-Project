@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostById } from "@/app/features/posts/api/posts.api";
 import type { Post } from "@/app/features/posts/types/posts.types";
+import { getFileUrl } from "@/app/features/posts/utils/getFileUrl";
 
 interface PostDetailPageProps {
   params: Promise<{
@@ -120,26 +121,30 @@ export default async function PostDetailPage({
           {Array.isArray(post.media) && post.media.length > 0 && (
             <div className="border-t border-[#EEF3F2] bg-[#FAFCFB] p-4 sm:p-6">
               <div className="grid gap-3">
-                {post.media.map((media) => (
-                  <div
-                    key={media.id}
-                    className="flex min-h-32 items-center justify-center rounded-2xl bg-[#F1F6F5]"
-                  >
-                    <div className="text-center">
-                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg shadow-sm">
-                        🖼️
-                      </div>
+                {post.media.map((media) => {
+                  const mediaUrl = getFileUrl(media.media_file);
 
-                      <p className="mt-3 text-xs font-semibold text-[#829397]">
-                        تصویر پست
-                      </p>
-
-                      <p className="mt-1 text-[10px] text-[#A5B1B3]">
-                        تصویر در حال حاضر قابل نمایش نیست
-                      </p>
+                  return (
+                    <div
+                      key={media.id}
+                      className="overflow-hidden rounded-2xl bg-[#F1F6F5]"
+                    >
+                      {mediaUrl ? (
+                        <img
+                          src={mediaUrl}
+                          alt={`تصویر پست ${post.id}`}
+                          className="h-auto max-h-[600px] w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex min-h-32 items-center justify-center">
+                          <p className="text-xs font-semibold text-[#829397]">
+                            تصویر پست در دسترس نیست
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -159,11 +164,10 @@ export default async function PostDetailPage({
 
             <div className="flex items-center gap-2">
               <span
-                className={`h-2 w-2 rounded-full ${
-                  post.is_published
-                    ? "bg-[#36B37E]"
-                    : "bg-[#D8A63E]"
-                }`}
+                className={`h-2 w-2 rounded-full ${post.is_published
+                  ? "bg-[#36B37E]"
+                  : "bg-[#D8A63E]"
+                  }`}
               />
 
               <span className="text-xs font-semibold text-[#829397]">

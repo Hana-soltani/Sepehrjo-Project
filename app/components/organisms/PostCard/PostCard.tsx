@@ -28,10 +28,6 @@ export default function PostCard({ post }: PostCardProps) {
 
   const avatarUrl = getFileUrl(post.user_avatar);
   const mediaUrl = getFileUrl(imageMedia?.media_file);
-  console.log("POST IMAGE URLS", {
-    avatarUrl,
-    mediaUrl,
-  });
 
   return (
     <article dir="rtl" className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#DDEEEB] bg-white shadow-[0_8px_30px_rgba(27,100,91,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#B9DED7] xl:w-80">
