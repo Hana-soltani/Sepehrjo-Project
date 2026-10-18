@@ -15,16 +15,22 @@ export default function SearchInput({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState(
-    searchParams.get("search") ?? ""
-  );
+  const currentSearch = searchParams.get("search") ?? "";
+
+  const [search, setSearch] = useState(currentSearch);
 
   useEffect(() => {
+    const trimmedSearch = search.trim();
+
+    if (trimmedSearch === currentSearch) {
+      return;
+    }
+
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
 
-      if (search.trim()) {
-        params.set("search", search.trim());
+      if (trimmedSearch) {
+        params.set("search", trimmedSearch);
       } else {
         params.delete("search");
       }
@@ -32,12 +38,15 @@ export default function SearchInput({
       const query = params.toString();
 
       router.replace(
-        query ? `${pathname}?${query}` : pathname
+        query ? `${pathname}?${query}` : pathname,
+        {
+          scroll: false,
+        }
       );
     }, 400);
 
     return () => clearTimeout(timer);
-  }, [search, pathname, router, searchParams]);
+  }, [search, currentSearch, pathname, router, searchParams]);
 
   return (
     <div

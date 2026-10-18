@@ -18,14 +18,14 @@ export default function PostList({
   showHeader = true,
   search = "",
 }: PostListProps) {
-  const { data, isLoading, isError, refetch } = usePosts();
+  const { data, isLoading, isError, refetch } = usePosts(search.trim() || undefined);
 
   const posts = data?.data ?? [];
 
-  const filteredPosts = search.trim()
-    ? posts.filter((post) => {
-      const value = search.trim().toLowerCase();
+  const value = search.trim().toLowerCase();
 
+  const filteredPosts = value
+    ? posts.filter((post) => {
       return (
         post.description?.toLowerCase().includes(value) ||
         post.user_full_name?.toLowerCase().includes(value) ||
