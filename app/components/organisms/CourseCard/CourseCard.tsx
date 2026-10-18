@@ -1,27 +1,26 @@
 import Link from "next/link";
 import type { Course } from "@/app/features/courses/types/courses.types";
+import { getFileUrl } from "@/app/features/courses/utils/getFileUrl";
 
 interface CourseCardProps {
   course: Course;
 }
 
 export default function CourseCard({ course }: CourseCardProps) {
+  const imageUrl = getFileUrl(course.image);
   return (
     <article className="group">
       <Link
         href={`/courses/${course.id}`}
         className="flex flex-col overflow-hidden rounded-[28px] border border-[#E8E2FA] bg-white shadow-[0_8px_30px_rgba(98,84,217,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#D8CEF7] hover:shadow-[0_18px_45px_rgba(98,84,217,0.12)] md:flex-row"
       >
-     
+
         <div className="relative h-56 shrink-0 overflow-hidden bg-[#EEE8FF] md:h-auto md:w-[280px] lg:w-[320px]">
-          {course.image && (
+          {imageUrl && (
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
               style={{
-                backgroundImage: `url("https://stg-api.sepehrjou.ir/${course.image.replace(
-                  /^\/+/,
-                  ""
-                )}")`,
+                backgroundImage: `url("${imageUrl}")`,
               }}
             />
           )}

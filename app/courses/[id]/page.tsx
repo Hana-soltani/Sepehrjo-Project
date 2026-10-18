@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCourseById } from "@/app/features/courses/api/courses.api";
+import { getFileUrl } from "@/app/features/courses/utils/getFileUrl";
 
 interface CourseDetailPageProps {
   params: Promise<{
@@ -25,6 +26,7 @@ export default async function CourseDetailPage({
   }
 
   const course = response.data;
+  const imageUrl = getFileUrl(course.image);
 
   const totalSubsections = course.sections.reduce(
     (total, section) => total + section.subsections.length,
@@ -102,19 +104,16 @@ export default async function CourseDetailPage({
 
 
             <div className="relative overflow-hidden rounded-[32px] bg-white p-3 shadow-[0_20px_60px_rgba(98,84,217,0.15)]">
-              {course.image ? (
+              {imageUrl ? (
                 <div
                   className="min-h-[280px] rounded-[24px] bg-cover bg-center"
                   style={{
-                    backgroundImage: `url("https://stg-api.sepehrjou.ir/${course.image.replace(
-                      /^\/+/,
-                      ""
-                    )}")`,
+                    backgroundImage: `url("${imageUrl}")`,
                   }}
                 />
               ) : (
                 <div className="flex min-h-[280px] items-center justify-center rounded-[24px] bg-[#EEE8FF]">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HIsVKLRK4fSbO_kdn2uCgufEFg9n2rpS_jzVbgineA&s=10" alt="" />
+                  
                 </div>
               )}
             </div>
