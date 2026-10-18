@@ -4,7 +4,7 @@ import type { Article } from "@/app/features/articles/types/articles.types";
 
 interface ArticleCardProps {
   article: Article;
-  imageSrc: string;
+  imageSrc: string | null;
 }
 
 function formatDate(date: string) {
@@ -26,13 +26,19 @@ export default function ArticleCard({
       >
 
         <div className="relative h-[190px] w-full shrink-0 overflow-hidden bg-[#EEF0FF]">
-          <Image
-            src={imageSrc}
-            alt={article.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
+          {imageSrc ? (
+            <Image
+              src={imageSrc}
+              alt={article.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-sm font-bold text-[#8A84C7]">
+              تصویر مقاله
+            </div>
+          )}
 
           <span className="absolute right-4 top-4 rounded-full bg-white px-3 py-1.5 text-[11px] font-bold text-[#6254D9] shadow-sm">
             مقاله آموزشی

@@ -1,17 +1,12 @@
 import Link from "next/link";
 import type { Article } from "@/app/features/articles/types/articles.types";
 import ArticleCard from "../ArticleCard/ArticleCard";
+import { getFileUrl } from "@/app/features/articles/utils/getFileUrl";
 
 interface ArticleListProps {
     articles: Article[];
 }
 
-const articleImages = [
-    "/images/articles/article-1.jpg",
-    "/images/articles/article-2.jpg",
-    "/images/articles/article-3.jpg",
-    "/images/articles/article-4.jpg",
-];
 
 export default function ArticleList({
     articles,
@@ -48,11 +43,11 @@ export default function ArticleList({
 
                 {visibleArticles.length > 0 ? (
                     <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                        {visibleArticles.map((article, index) => (
+                        {visibleArticles.map((article) => (
                             <ArticleCard
                                 key={article.id}
                                 article={article}
-                                imageSrc={articleImages[index]}
+                                imageSrc={getFileUrl(article.image)}
                             />
                         ))}
                     </div>
