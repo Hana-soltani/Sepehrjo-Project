@@ -1,5 +1,5 @@
 import axios from "axios";
-import api from "@/app/lib/axios";
+import api from "@/app/lib/api-helper";
 import type {
   PostListResponse,
   PostDetailResponse,

@@ -1,4 +1,4 @@
-import api from "@/app/lib/axios";
+import api from "@/app/lib/api-helper";
 import type {ArticleListResponse, ArticleDetailResponse,} from "../types/articles.types";
 
 export async function getArticles(
