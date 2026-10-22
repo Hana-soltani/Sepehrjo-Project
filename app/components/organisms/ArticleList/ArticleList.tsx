@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Article } from "@/app/features/articles/types/articles.types";
 import ArticleCard from "../ArticleCard/ArticleCard";
-import { getFileUrl } from "@/app/features/articles/utils/getFileUrl";
+import {MoveLeft} from 'lucide-react'
 
 interface ArticleListProps {
     articles: Article[];
@@ -37,7 +37,7 @@ export default function ArticleList({
                         className="flex h-10 w-32 items-center justify-center gap-2 rounded-xl bg-[#6254D9] text-[16px] font-bold text-white transition-opacity hover:opacity-70"
                     >
                         مشاهده همه
-                        <span>←</span>
+                        <MoveLeft />
                     </Link>
                 </div>
 
@@ -47,7 +47,6 @@ export default function ArticleList({
                             <ArticleCard
                                 key={article.id}
                                 article={article}
-                                imageSrc={getFileUrl(article.image)}
                             />
                         ))}
                     </div>

@@ -8,12 +8,21 @@ interface ArticleDetailPageProps {
   }>;
 }
 
-function formatDate(date: string) {
+function formatDate(date: string | null | undefined ): string {
+  if (!date) {
+    return "تاریخ تعریف نشده است."
+  }
+  const parseDate = new Date(date);
+
+  if (Number.isNaN(parseDate.getTime())) {
+    return "تاریخ نامعتبر است"
+  }
+
   return new Intl.DateTimeFormat("fa-IR", {
     day: "numeric",
     month: "long",
     year: "numeric",
-  }).format(new Date(date));
+  }).format(parseDate)
 }
 
 function formatArticleContent(content: string) {
@@ -37,7 +46,7 @@ export default async function ArticleDetailPage({
 
   const response = await getArticleById(articleId);
 
-  if (!response.success || !response.data) {
+  if (!response || !response.success || !response.data) {
     notFound();
   }
 
@@ -46,7 +55,7 @@ export default async function ArticleDetailPage({
 
   return (
     <main dir="rtl" className="min-h-screen ">
-      
+
       <section className="relative overflow-hidden bg-[#171B3A]">
         <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#6C63FF]/20 blur-3xl" />
 
@@ -89,14 +98,14 @@ export default async function ArticleDetailPage({
         </div>
       </section>
 
-      
+
       <section className="px-5 py-6 sm:px-8 sm:py-8">
         <div className="mx-auto max-w-[1100px]">
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
-            
+
             <article className="rounded-[28px] border border-[#E9EAF2] bg-white shadow-[0_10px_35px_rgba(23,27,58,0.05)]">
               <div className="p-6 sm:p-8 lg:p-10">
-                
+
                 {article.meta_description && (
                   <div className="mb-7 rounded-2xl border-r-4 border-[#6C63FF] bg-[#F5F3FF] px-5 py-4">
                     <p className="text-[13px] leading-7 text-[#5E6378]">
@@ -105,7 +114,7 @@ export default async function ArticleDetailPage({
                   </div>
                 )}
 
-               
+
                 <div className="space-y-5">
                   {contentParagraphs.map(
                     (paragraph, index) => {
@@ -129,7 +138,7 @@ export default async function ArticleDetailPage({
                   )}
                 </div>
 
-                
+
                 {article.tags.length > 0 && (
                   <div className="mt-8 border-t border-[#EFF0F4] pt-6">
                     <h2 className="mb-3 text-[14px] font-extrabold text-[#20243D]">
@@ -149,7 +158,7 @@ export default async function ArticleDetailPage({
                   </div>
                 )}
 
-              
+
                 {article.categories.length > 0 && (
                   <div className="mt-6">
                     <h2 className="mb-3 text-[14px] font-extrabold text-[#20243D]">
@@ -171,7 +180,7 @@ export default async function ArticleDetailPage({
                   </div>
                 )}
 
-                
+
                 {article.skills.length > 0 && (
                   <div className="mt-6">
                     <h2 className="mb-3 text-[14px] font-extrabold text-[#20243D]">
@@ -193,9 +202,9 @@ export default async function ArticleDetailPage({
               </div>
             </article>
 
-           
+
             <aside className="space-y-4">
-              
+
               <div className="rounded-[24px] border border-[#E9EAF2] bg-white p-5 shadow-[0_8px_30px_rgba(23,27,58,0.04)]">
                 <p className="mb-4 text-[12px] font-bold text-[#8A8FA2]">
                   نویسنده مقاله
@@ -240,7 +249,7 @@ export default async function ArticleDetailPage({
                 </div>
               </div>
 
-            
+
               <div className="rounded-[24px] border border-[#E9EAF2] bg-white p-5 shadow-[0_8px_30px_rgba(23,27,58,0.04)]">
                 <p className="mb-4 text-[12px] font-bold text-[#8A8FA2]">
                   درباره این مقاله
@@ -293,7 +302,7 @@ export default async function ArticleDetailPage({
                 </div>
               </div>
 
-              
+
               <div className="rounded-[24px] bg-[#171B3A] p-5 text-white">
                 <p className="text-[11px] text-[#9FA5C2]">
                   تاریخ انتشار

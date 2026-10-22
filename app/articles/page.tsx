@@ -2,6 +2,10 @@ import { getArticles } from "../features/articles/api/articles.api";
 import EmptyState from "../components/molecules/EmptyState/EmptyState";
 import SearchInput from "../components/molecules/SearchInput/SearchInput";
 import ArticleList from "../components/organisms/ArticleList/ArticleList";
+import {Check } from 'lucide-react';
+import {Heart} from 'lucide-react';
+import {Pencil} from 'lucide-react';
+import {Sparkles} from 'lucide-react'
 
 interface ArticlesPageProps {
   searchParams: Promise<{
@@ -29,7 +33,7 @@ export default async function ArticlesPage({
             <div className="mb-6 flex justify-center">
               <span className="inline-flex items-center gap-2 rounded-full border border-[#DDD7FF] bg-white px-5 py-2.5 text-[13px] font-bold text-[#6254D9] shadow-[0_5px_20px_rgba(98,84,217,0.08)] lg:text-[14px]">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F0EEFF]">
-                  ✦
+                  <Sparkles />
                 </span>
                 دنیای یادگیری داناجو
               </span>
@@ -50,7 +54,7 @@ export default async function ArticlesPage({
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <div className="flex items-center gap-2 rounded-full border border-[#E5E0FF] bg-white px-4 py-2.5 shadow-sm">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#F0EEFF] text-[#6254D9]">
-                  ✦
+                  <Sparkles />
                 </span>
 
                 <span className="text-[11px] font-bold text-[#526078]">
@@ -60,7 +64,7 @@ export default async function ArticlesPage({
 
               <div className="flex items-center gap-2 rounded-full border border-[#DDEBFF] bg-white px-4 py-2.5 shadow-sm">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#EAF3FF] text-[#4D82C4]">
-                  ✓
+                  <Check className="w-5" />
                 </span>
 
                 <span className="text-[11px] font-bold text-[#526078]">
@@ -70,7 +74,7 @@ export default async function ArticlesPage({
 
               <div className="flex items-center gap-2 rounded-full border border-[#DDF1E7] bg-white px-4 py-2.5 shadow-sm">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#EAF8F2] text-[#4D9B73]">
-                  ♡
+                  <Heart className="w-4" />
                 </span>
 
                 <span className="text-[11px] font-bold text-[#526078]">
@@ -92,7 +96,7 @@ export default async function ArticlesPage({
           <div className="mb-8 flex items-center justify-between rounded-[24px] border border-[#ECECF5] bg-white px-5 py-5 shadow-[0_8px_30px_rgba(67,65,140,0.05)]">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F0EEFF] text-[20px] text-[#6254D9]">
-                ✎
+                <Pencil />
               </div>
 
               <div>

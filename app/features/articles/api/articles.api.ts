@@ -1,5 +1,6 @@
+import axios from "axios";
 import api from "@/app/lib/api-helper";
-import type {ArticleListResponse, ArticleDetailResponse,} from "../types/articles.types";
+import type { ArticleListResponse, ArticleDetailResponse, } from "../types/articles.types";
 
 export async function getArticles(
   search?: string
@@ -13,8 +14,16 @@ export async function getArticles(
 
 export async function getArticleById(
   id: number
-): Promise<ArticleDetailResponse> {
-  const response = await api.get<ArticleDetailResponse>(`article/${id}/`);
+): Promise<ArticleDetailResponse | null> {
+  try {
+    const response = await api.get<ArticleDetailResponse>(`article/${id}/`);
+    return response.data;
 
-  return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
+
 }
