@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "@/app/lib/api-helper";
 import type {
   CourseListResponse,
@@ -16,8 +17,17 @@ export async function getCourses(
 
 export async function getCourseById(
   id: number
-): Promise<CourseDetailResponse> {
-  const response = await api.get<CourseDetailResponse>(`course/${id}/`);
+): Promise<CourseDetailResponse | null> {
+  try {
+    const response = await api.get<CourseDetailResponse>(`course/${id}/`);
+    return response.data;
 
-  return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return null;
+    }
+
+    throw error;
+  }
+
 }

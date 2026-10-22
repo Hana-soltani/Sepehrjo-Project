@@ -1,13 +1,16 @@
 import Link from "next/link";
 import type { Course } from "@/app/features/courses/types/courses.types";
-import { getFileUrl } from "@/app/features/courses/utils/getFileUrl";
+import { getFileUrl } from "@/app/lib/file-url";
+import { MoveLeft } from "lucide-react"
 
 interface CourseCardProps {
   course: Course;
 }
 
 export default function CourseCard({ course }: CourseCardProps) {
-  const imageUrl = getFileUrl(course.image);
+  const courseImageUrl = getFileUrl(course.image);
+  const teacherAvatarUrl = getFileUrl(course.user.avatar);
+
   return (
     <article className="group">
       <Link
@@ -16,11 +19,11 @@ export default function CourseCard({ course }: CourseCardProps) {
       >
 
         <div className="relative h-56 shrink-0 overflow-hidden bg-[#EEE8FF] md:h-auto md:w-[280px] lg:w-[320px]">
-          {imageUrl && (
+          {courseImageUrl && (
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
               style={{
-                backgroundImage: `url("${imageUrl}")`,
+                backgroundImage: `url("${courseImageUrl}")`,
               }}
             />
           )}
@@ -52,8 +55,18 @@ export default function CourseCard({ course }: CourseCardProps) {
           </div>
 
           <div className="mt-5 flex items-center gap-3 border-b border-[#F0EDF8] pb-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#EEE8FF] font-black text-[#7657C8]">
-              {course.user.full_name?.charAt(0) || "م"}
+            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-2xl bg-[#EEE8FF]">
+              {teacherAvatarUrl ? (
+                <img
+                  src={teacherAvatarUrl}
+                  alt={course.user.full_name || "مدرس دوره"}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center font-black text-[#7657C8]">
+                  {course.user.full_name?.charAt(0) || "م"}
+                </div>
+              )}
             </div>
 
             <div className="min-w-0">
@@ -114,7 +127,7 @@ export default function CourseCard({ course }: CourseCardProps) {
               </div>
 
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EEE8FF] text-xl font-bold text-[#6254D9] transition-all duration-300 group-hover:bg-[#6254D9] group-hover:text-white">
-                ←
+                <MoveLeft />
               </span>
             </div>
           </div>

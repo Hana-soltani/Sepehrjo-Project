@@ -21,7 +21,7 @@ export default async function CourseDetailPage({
 
   const response = await getCourseById(courseId);
 
-  if (!response.success || !response.data) {
+  if (!response || !response.success || !response.data) {
     notFound();
   }
 
