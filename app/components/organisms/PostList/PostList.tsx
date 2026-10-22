@@ -18,7 +18,7 @@ export default function PostList({
   showHeader = true,
   search = "",
 }: PostListProps) {
-  const { data, isLoading, isError, refetch } = usePosts(search.trim() || undefined);
+  const { data, isLoading, isError, error , refetch } = usePosts(search.trim() || undefined);
 
   const posts = data?.data ?? [];
 
@@ -79,7 +79,7 @@ export default function PostList({
 
         {isError && (
           <ErrorState
-            message="دریافت پست‌ها با خطا مواجه شد."
+            message={error.message}
             onRetry={refetch}
           />
         )}

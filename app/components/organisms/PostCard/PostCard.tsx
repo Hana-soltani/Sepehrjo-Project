@@ -1,7 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Post } from "@/app/features/posts/types/posts.types";
-import { getFileUrl } from "@/app/features/posts/utils/getFileUrl";
+import { getFileUrl } from "@/app/lib/file-url";
+import { Heart } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
+import { MoveLeft } from 'lucide-react'
+
 
 interface PostCardProps {
   post: Post;
@@ -28,6 +31,11 @@ export default function PostCard({ post }: PostCardProps) {
 
   const avatarUrl = getFileUrl(post.user_avatar);
   const mediaUrl = getFileUrl(imageMedia?.media_file);
+  console.log("POST IMAGE DEBUG:", {
+    mediaFile: imageMedia?.media_file,
+    mediaUrl,
+    avatarUrl,
+  });
 
   return (
     <article dir="rtl" className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#DDEEEB] bg-white shadow-[0_8px_30px_rgba(27,100,91,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#B9DED7] xl:w-80">
@@ -68,7 +76,7 @@ export default function PostCard({ post }: PostCardProps) {
             {post.description}
           </p>
 
-          {mediaUrl && (
+          {mediaUrl ? (
             <div className="relative mt-4 aspect-[16/10] overflow-hidden rounded-2xl bg-[#F0F7F5]">
               <img
                 src={mediaUrl}
@@ -76,24 +84,29 @@ export default function PostCard({ post }: PostCardProps) {
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               />
             </div>
-          )}
+          ) : null}
         </Link>
 
         <div className="mt-auto flex items-center gap-5 border-t border-[#EAF1EF] pt-4">
           <span className="text-xs text-[#82969B]">
-            ♡ {post.likes_count} لایک
+            <Heart />
+            {post.likes_count} لایک
           </span>
 
           <span className="text-xs text-[#82969B]">
-            ◯ {post.comments_count} نظر
+            <MessageCircle />
+            {post.comments_count} نظر
           </span>
 
-          <Link
-            href={`/post/${post.id}`}
-            className="mr-auto text-xs font-extrabold text-[#168579] transition-colors hover:text-[#193D49]"
-          >
-            مشاهده پست ←
-          </Link>
+          <div className=" inline-flex gap-1 hover:text-[#193D49] text-[#168579] whitespace-nowrap text-left md:mr-5 xl:mr-20 mr-24 ">
+            <Link
+              href={`/post/${post.id}`}
+              className="mr-auto text-xs font-extrabold  transition-colors "
+            >
+              مشاهده پست
+            </Link>
+            <MoveLeft className="-mt-1 w-7" />
+          </div>
         </div>
       </div>
     </article>

@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostById } from "@/app/features/posts/api/posts.api";
 import type { Post } from "@/app/features/posts/types/posts.types";
-import { getFileUrl } from "@/app/features/posts/utils/getFileUrl";
+import { getFileUrl } from "@/app/lib/file-url";
+import { MoveRight } from 'lucide-react';
+
 
 interface PostDetailPageProps {
   params: Promise<{
@@ -35,23 +37,31 @@ export default async function PostDetailPage({
     notFound();
   }
 
-  let post: Post | null = null;
+  // let post: Post | null = null;
 
-  try {
-    const response = await getPostById(postId);
+  // try {
+  //   const response = await getPostById(postId);
 
-    if (!response || !response.success || !response.data) {
-      notFound();
-    }
+  //   if (!response || !response.success || !response.data) {
+  //     notFound();
+  //   }
 
-    post = response.data;
-  } catch {
-    notFound();
+  //   post = response.data;
+  // } catch {
+  //   notFound();
+  // }
+
+  // if (!post) {
+  //   notFound();
+  // }
+
+  const response = await getPostById(postId);
+
+  if (!response || !response.success || !response.data) {
+    notFound()
   }
 
-  if (!post) {
-    notFound();
-  }
+  const post = response.data
 
   return (
     <main dir="rtl" className="min-h-screen bg-[#F4F9F8] px-4 py-8 sm:px-6 lg:px-8">
@@ -61,7 +71,9 @@ export default async function PostDetailPage({
             href="/post"
             className="inline-flex items-center gap-2 text-sm font-bold text-[#168579] transition hover:text-[#0F665D]"
           >
-            <span>→</span>
+            <span>
+              <MoveRight />
+            </span>
             بازگشت به پست‌ها
           </Link>
         </div>

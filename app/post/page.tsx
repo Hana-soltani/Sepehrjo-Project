@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import SearchInput from "@/app/components/molecules/SearchInput/SearchInput";
 import PostList from "@/app/components/organisms/PostList/PostList";
+import { Sparkles } from 'lucide-react';
+import { MoveLeft } from 'lucide-react';
+import {Pencil } from 'lucide-react';
+import {Plus} from 'lucide-react'
 
 export default function PostsPage() {
   const searchParams = useSearchParams();
@@ -24,7 +28,7 @@ export default function PostsPage() {
               <div className="max-w-2xl">
                 <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#D4EAE5] bg-white/80 px-4 py-2 text-xs font-bold text-[#168579] shadow-sm backdrop-blur">
                   <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#E0F5F0]">
-                    ✦
+                    <Sparkles />
                   </span>
 
                   جامعه سپهرجو
@@ -51,7 +55,7 @@ export default function PostsPage() {
                   >
                     کشف پست‌ها
                     <span className="transition-transform duration-300 group-hover:-translate-x-1">
-                      ←
+                      <MoveLeft />
                     </span>
                   </Link>
 
@@ -68,7 +72,7 @@ export default function PostsPage() {
                 <div className="absolute right-4 top-5 h-52 w-72 rounded-[32px] bg-white/80 shadow-[0_20px_45px_rgba(43,82,76,0.1)] backdrop-blur">
                   <div className="absolute right-6 top-6 flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#E0F5F0] text-xl text-[#168579]">
-                      ✎
+                      <Pencil />
                     </div>
 
                     <div>
@@ -89,11 +93,11 @@ export default function PostsPage() {
                 </div>
 
                 <div className="absolute bottom-0 left-4 flex h-20 w-20 rotate-6 items-center justify-center rounded-[24px] bg-[#7657C8] text-3xl text-white shadow-[0_15px_30px_rgba(118,87,200,0.25)]">
-                  ✦
+                  <Sparkles />
                 </div>
 
                 <div className="absolute right-0 top-0 flex h-14 w-14 -rotate-6 items-center justify-center rounded-2xl bg-[#168579] text-xl text-white shadow-[0_12px_25px_rgba(22,133,121,0.22)]">
-                  +
+                 <Plus />
                 </div>
               </div>
             </div>

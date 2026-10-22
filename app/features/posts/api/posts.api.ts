@@ -1,9 +1,6 @@
 import axios from "axios";
 import api from "@/app/lib/api-helper";
-import type {
-  PostListResponse,
-  PostDetailResponse,
-} from "../types/posts.types";
+import type { PostListResponse, PostDetailResponse, } from "../types/posts.types";
 
 export async function getPost(search?: string): Promise<PostListResponse> {
   const response = await api.get<PostListResponse>("post/", {
@@ -21,10 +18,12 @@ export async function getPostById(
 
     return response.data;
   } catch (error) {
+
     if (axios.isAxiosError(error) && error.response?.status === 404) {
       return null;
     }
 
     throw error;
   }
+
 }
