@@ -1,5 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import {Send} from 'lucide-react';
+import { SlSocialInstagram } from "react-icons/sl";
+import { SlSocialLinkedin } from "react-icons/sl";
+import { SlSocialYoutube } from "react-icons/sl";
 
 export default function Footer() {
     return (
@@ -30,39 +34,19 @@ export default function Footer() {
                         <div className="mt-6 flex items-center gap-3">
 
                             <a href="#" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1">
-                                <Image
-                                    src="/images/icons/instagram-icon.png"
-                                    alt="Instagram"
-                                    width={22}
-                                    height={22}
-                                />
+                              <SlSocialInstagram className="text-[#6254D9]" />
                             </a>
 
                             <a href="#" aria-label="Telegram" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1" >
-                                <Image
-                                    src="/images/icons/telegram-icon.png"
-                                    alt="Telegram"
-                                    width={22}
-                                    height={22}
-                                />
+                               <Send className="text-[#6254D9] w-4" />
                             </a>
 
                             <a href="#" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1">
-                                <Image
-                                    src="/images/icons/linkedin-icon.png"
-                                    alt="LinkedIn"
-                                    width={22}
-                                    height={22}
-                                />
+                              <SlSocialLinkedin className="text-[#6254D9]" />
                             </a>
 
                             <a href="#" aria-label="X" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white transition hover:-translate-y-1">
-                                <Image
-                                    src="/images/icons/x-icon.png"
-                                    alt="X"
-                                    width={20}
-                                    height={20}
-                                />
+                               <SlSocialYoutube className="text-[#6254D9] " />
                             </a>
 
                         </div>

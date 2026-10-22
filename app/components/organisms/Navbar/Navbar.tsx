@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import { Menu } from 'lucide-react'
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,13 +71,7 @@ export default function Navbar() {
                     onClick={() => setIsMenuOpen((previous) => !previous)}
                     className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F1F2FC] text-[#6254D9] md:hidden"
                 >
-                    <Image
-                        src="/images/icons/menu-icon.svg"
-                        alt="منو"
-                        width={21}
-                        height={21}
-                    />
-
+                    <Menu />
                 </button>
             </div>
 
