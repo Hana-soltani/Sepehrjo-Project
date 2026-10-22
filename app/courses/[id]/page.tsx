@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCourseById } from "@/app/features/courses/api/courses.api";
-import { getFileUrl } from "@/app/features/courses/utils/getFileUrl";
+import { getFileUrl } from "@/app/lib/file-url";
 
 interface CourseDetailPageProps {
   params: Promise<{
