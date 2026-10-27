@@ -54,9 +54,9 @@ export default async function ArticleDetailPage({
   const contentParagraphs = formatArticleContent(article.content);
 
   return (
-    <main dir="rtl" className="min-h-screen ">
+    <section dir="rtl" className="min-h-screen ">
 
-      <section className="relative overflow-hidden bg-[#171B3A]">
+      <div className="relative overflow-hidden bg-[#171B3A]">
         <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#6C63FF]/20 blur-3xl" />
 
         <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#38C9BE]/10 blur-3xl" />
@@ -96,7 +96,7 @@ export default async function ArticleDetailPage({
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
 
       <section className="px-5 py-6 sm:px-8 sm:py-8">
@@ -316,6 +316,6 @@ export default async function ArticleDetailPage({
           </div>
         </div>
       </section>
-    </main>
+    </section>
   );
 }

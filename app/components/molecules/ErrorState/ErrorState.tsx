@@ -11,7 +11,7 @@ export default function ErrorState({
   onRetry,
 }: ErrorStateProps) {
   return (
-    <main dir="rtl" className="flex w-full justify-center items-center  px-4 py-10 ">
+    <div dir="rtl" className="flex w-full justify-center items-center  px-4 py-10 ">
       <div className="flex w-full max-w-md flex-col items-center justify-center rounded-2xl border border-red-100 bg-red-50 px-6 py-8 text-center shadow-sm  ">
         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600     ">
           <IoAlert />
@@ -32,7 +32,7 @@ export default function ErrorState({
 
       </div>
 
-    </main>
+    </div>
 
   );
 }

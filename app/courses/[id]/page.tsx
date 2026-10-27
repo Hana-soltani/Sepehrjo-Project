@@ -34,8 +34,8 @@ export default async function CourseDetailPage({
   );
 
   return (
-    <main dir="rtl" className="min-h-screen bg-[#FAFCFB]">
-      <section className="relative overflow-hidden bg-[#EEE8FF] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <section dir="rtl" className="min-h-screen bg-[#FAFCFB]">
+      <div className="relative overflow-hidden bg-[#EEE8FF] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#DCD7FF]" />
         <div className="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[#DDEBFF]" />
 
@@ -119,7 +119,7 @@ export default async function CourseDetailPage({
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
 
       <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -488,6 +488,6 @@ export default async function CourseDetailPage({
           </aside>
         </div>
       </section>
-    </main>
+    </section>
   );
 }

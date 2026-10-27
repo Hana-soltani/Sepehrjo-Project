@@ -1,10 +1,10 @@
-import axios from "axios";
+import { ApiError } from "@/app/lib/error-handler";
 import api from "@/app/lib/api-helper";
 import type { PostListResponse, PostDetailResponse, } from "../types/posts.types";
 
-export async function getPost(search?: string): Promise<PostListResponse> {
+export async function getPost(limit:number, offset:number, search?: string): Promise<PostListResponse> {
   const response = await api.get<PostListResponse>("post/", {
-    params: search ? { search } : undefined,
+    params:{limit, offset, ...(search ?{search}:{})} 
   });
 
   return response.data;
@@ -18,8 +18,7 @@ export async function getPostById(
 
     return response.data;
   } catch (error) {
-
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
+    if (error instanceof ApiError && error.status ===404) {
       return null;
     }
 

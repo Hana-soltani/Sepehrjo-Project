@@ -22,8 +22,8 @@ export default async function ArticlesPage({
   const response = await getArticles(search);
 
   return (
-    <main dir="rtl" className="min-h-screen overflow-hidden ">
-      <section className="relative overflow-hidden px-5 py-16">
+    <section dir="rtl" className="min-h-screen overflow-hidden ">
+      <div className="relative overflow-hidden px-5 py-16">
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#E7E1FF] opacity-70" />
         <div className="absolute -left-24 top-20 h-72 w-72 rounded-full bg-[#E2F0FF] opacity-70" />
         <div className="absolute bottom-[-100px] right-[25%] h-56 w-56 rounded-full bg-[#FFE9F1] opacity-60" />
@@ -84,9 +84,9 @@ export default async function ArticlesPage({
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="px-5 pb-16 pt-6">
+      <div className="px-5 pb-16 pt-6">
         <div className="mx-auto max-w-[1200px]">
 
           <div className="mb-5 max-w-[420px]">
@@ -125,7 +125,7 @@ export default async function ArticlesPage({
             </div>
           )}
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 }

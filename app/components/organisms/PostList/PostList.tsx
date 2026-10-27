@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import EmptyState from "@/app/components/molecules/EmptyState/EmptyState";
 import ErrorState from "@/app/components/molecules/ErrorState/ErrorState";
@@ -18,33 +19,60 @@ export default function PostList({
   showHeader = true,
   search = "",
 }: PostListProps) {
-  const { data, isLoading, isError, error , refetch } = usePosts(search.trim() || undefined);
+  const { data, isLoading, isError,error, refetch,fetchNextPage,hasNextPage,isFetchingNextPage} = usePosts(search.trim() || undefined);
 
-  const posts = data?.data ?? [];
-
-  const value = search.trim().toLowerCase();
-
-  const filteredPosts = value
-    ? posts.filter((post) => {
-      return (
-        post.description?.toLowerCase().includes(value) ||
-        post.user_full_name?.toLowerCase().includes(value) ||
-        post.user?.toLowerCase().includes(value) ||
-        post.user_headline?.toLowerCase().includes(value) ||
-        post.skills?.some((skill) =>
-          skill.toLowerCase().includes(value)
-        )
-      );
-    })
-    : posts;
+  const posts = data?.pages.flatMap((page) => page.data) ?? [];
 
   const visiblePosts =
     limit !== undefined
-      ? filteredPosts.slice(0, limit)
-      : filteredPosts;
+      ? posts.slice(0, limit)
+      : posts;
+
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (limit !== undefined || !hasNextPage) {
+      return;
+    }
+
+    const target = loadMoreRef.current;
+
+    if (!target) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0].isIntersecting &&
+          hasNextPage &&
+          !isFetchingNextPage
+        ) {
+          fetchNextPage();
+        }
+      },
+      {
+        rootMargin: "50px",
+      }
+    );
+
+    observer.observe(target);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [
+    limit,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  ]);
 
   return (
-    <section dir="rtl" className="bg-[#F4F9F8] px-4 py-14 lg:px-8 lg:py-14">
+    <section
+      dir="rtl"
+      className="bg-[#F4F9F8] px-4 py-14 lg:px-8"
+    >
       <div className="mx-auto max-w-7xl">
         {showHeader && (
           <div className="mb-8 flex flex-col gap-4 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
@@ -77,33 +105,56 @@ export default function PostList({
           <LoadingState message="در حال دریافت پست‌ها..." />
         )}
 
-        {isError && (
+        {isError && !data && (
           <ErrorState
             message={error.message}
             onRetry={refetch}
           />
         )}
 
-
-        {!isLoading && !isError && filteredPosts.length === 0 && (
-
+        {!isLoading && !isError && visiblePosts.length === 0 && (
           <EmptyState message="پستی با این عبارت پیدا نشد." />
-
         )}
 
-        {!isLoading && !isError && visiblePosts.length > 0 && (
-          <div className="mx-auto grid w-fit grid-cols-1 justify-items-center gap-5 md:grid-cols-3 md:gap-4">
-            {visiblePosts.map((post) => (
+        {!isLoading && visiblePosts.length > 0 && (
+          <>
+            <div className="mx-auto grid w-fit grid-cols-1 justify-items-center gap-5 md:grid-cols-3 md:gap-4">
+              {visiblePosts.map((post) => (
+                <div
+                  key={post.id}
+                  className="w-full max-w-[360px] md:max-w-none"
+                >
+                  <PostCard post={post} />
+                </div>
+              ))}
+            </div>
+
+            {limit === undefined && hasNextPage && (
               <div
-                key={post.id}
-                className="w-full max-w-[360px] md:max-w-none"
+                ref={loadMoreRef}
+                className="mt-8 flex min-h-20 items-center justify-center"
               >
-                <PostCard post={post} />
+                {isFetchingNextPage && (
+                  <span className="text-sm text-[#758B90]">
+                    در حال دریافت پست‌های بیشتر...
+                  </span>
+                )}
               </div>
-            ))}
-          </div>
+            )}
+
+            {limit === undefined && isError && data && (
+              <ErrorState
+                message={error.message}
+                onRetry={fetchNextPage}
+              />
+            )}
+          </>
         )}
       </div>
     </section>
   );
 }
+
+
+
+

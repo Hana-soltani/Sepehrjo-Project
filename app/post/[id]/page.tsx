@@ -64,7 +64,7 @@ export default async function PostDetailPage({
   const post = response.data
 
   return (
-    <main dir="rtl" className="min-h-screen bg-[#F4F9F8] px-4 py-8 sm:px-6 lg:px-8">
+    <section dir="rtl" className="min-h-screen bg-[#F4F9F8] px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         <div className="mb-6">
           <Link
@@ -191,6 +191,6 @@ export default async function PostDetailPage({
           </div>
         </article>
       </div>
-    </main>
+    </section>
   );
 }

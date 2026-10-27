@@ -1,4 +1,4 @@
-import axios from "axios";
+import { ApiError } from "@/app/lib/error-handler";
 import api from "@/app/lib/api-helper";
 import type {
   CourseListResponse,
@@ -23,7 +23,7 @@ export async function getCourseById(
     return response.data;
 
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
+    if (error instanceof ApiError && error.status === 404) {
       return null;
     }
 

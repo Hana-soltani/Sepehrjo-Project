@@ -22,7 +22,7 @@ export default async function CoursesPage({
   const courses = response.data ?? [];
 
   return (
-    <main dir="rtl" className="min-h-screen ">
+    <section dir="rtl" className="min-h-screen ">
       <section className="bg-[#c7bee2] px-4 py-14 items-center justify-center text-center sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-7xl">
           <span className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-bold text-[#6254D9] shadow-sm">
@@ -46,6 +46,6 @@ export default async function CoursesPage({
           <CourseList courses={courses} />
         </div>
       </section>
-    </main>
+    </section>
   );
 }

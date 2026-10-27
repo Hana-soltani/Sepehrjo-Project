@@ -14,7 +14,7 @@ export default function PostsPage() {
   const search = searchParams.get("search") ?? "";
 
   return (
-    <main dir="rtl" className="min-h-screen overflow-hidden ">
+    <section dir="rtl" className="min-h-screen overflow-hidden ">
       <section className="relative overflow-hidden">
         <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#DDF5EF] opacity-80 blur-3xl" />
 
@@ -114,6 +114,6 @@ export default function PostsPage() {
           <PostList search={search} />
         </div>
       </section>
-    </main>
+    </section>
   );
 }
