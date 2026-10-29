@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import Link from "next/link";
 import EmptyState from "@/app/components/molecules/EmptyState/EmptyState";
 import ErrorState from "@/app/components/molecules/ErrorState/ErrorState";
 import LoadingState from "@/app/components/molecules/LoadingState/LoadingState";
 import { usePosts } from "@/app/features/posts/hooks/usePosts";
+import { usePostSearch } from "@/app/features/posts/hooks/usePostSearch";
+import { usePostInfiniteScroll } from "@/app/features/posts/hooks/usePostInfiniteScroll";
 import PostCard from "../PostCard/PostCard";
 
 interface PostListProps {
@@ -19,54 +20,37 @@ export default function PostList({
   showHeader = true,
   search = "",
 }: PostListProps) {
-  const { data, isLoading, isError,error, refetch,fetchNextPage,hasNextPage,isFetchingNextPage} = usePosts(search.trim() || undefined);
+  const postsQuery = usePosts();
 
-  const posts = data?.pages.flatMap((page) => page.data) ?? [];
-
-  const visiblePosts =
-    limit !== undefined
-      ? posts.slice(0, limit)
-      : posts;
-
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (limit !== undefined || !hasNextPage) {
-      return;
-    }
-
-    const target = loadMoreRef.current;
-
-    if (!target) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          hasNextPage &&
-          !isFetchingNextPage
-        ) {
-          fetchNextPage();
-        }
-      },
-      {
-        rootMargin: "50px",
-      }
-    );
-
-    observer.observe(target);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [
-    limit,
+  const {
+    isLoading,
+    isError,
+    error,
+    refetch,
+    fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    fetchNextPage,
-  ]);
+  } = postsQuery;
+
+  const {
+    posts,
+    visiblePosts,
+    isSearching,
+  } = usePostSearch({
+    query: postsQuery,
+    search,
+    limit,
+  });
+
+  const { loadMoreRef } = usePostInfiniteScroll({
+    query: postsQuery,
+    enabled: limit === undefined && !isSearching,
+  });
+
+  const errorMessage =
+    error instanceof Error
+      ? error.message
+      : "خطایی در دریافت پست‌ها رخ داده است.";
 
   return (
     <section
@@ -90,14 +74,15 @@ export default function PostList({
               </p>
             </div>
 
-            {limit !== undefined && posts.length > limit && (
-              <Link
-                href="/post"
-                className="self-start rounded-xl bg-[#6254D9] px-5 py-3 text-xs font-bold text-white transition hover:bg-[#168579] lg:self-auto xl:ml-10"
-              >
-                مشاهده همه پست‌ها
-              </Link>
-            )}
+            {limit !== undefined &&
+              visiblePosts.length > limit && (
+                <Link
+                  href="/post"
+                  className="self-start rounded-xl bg-[#6254D9] px-5 py-3 text-xs font-bold text-white transition hover:bg-[#168579] lg:self-auto xl:ml-10"
+                >
+                  مشاهده همه پست‌ها
+                </Link>
+              )}
           </div>
         )}
 
@@ -105,56 +90,69 @@ export default function PostList({
           <LoadingState message="در حال دریافت پست‌ها..." />
         )}
 
-        {isError && !data && (
+        {isError && !posts.length && (
           <ErrorState
-            message={error.message}
+            message={errorMessage}
             onRetry={refetch}
           />
         )}
 
-        {!isLoading && !isError && visiblePosts.length === 0 && (
-          <EmptyState message="پستی با این عبارت پیدا نشد." />
-        )}
+        {!isLoading &&
+          !isError &&
+          isSearching &&
+          isFetchingNextPage && (
+            <LoadingState message="در حال جستجوی پست‌ها..." />
+          )}
 
-        {!isLoading && visiblePosts.length > 0 && (
-          <>
-            <div className="mx-auto grid w-fit grid-cols-1 justify-items-center gap-5 md:grid-cols-3 md:gap-4">
-              {visiblePosts.map((post) => (
-                <div
-                  key={post.id}
-                  className="w-full max-w-[360px] md:max-w-none"
-                >
-                  <PostCard post={post} />
-                </div>
-              ))}
-            </div>
+        {!isLoading &&
+          !isError &&
+          !isFetchingNextPage &&
+          visiblePosts.length === 0 && (
+            <EmptyState message="پستی با این عبارت پیدا نشد." />
+          )}
 
-            {limit === undefined && hasNextPage && (
-              <div
-                ref={loadMoreRef}
-                className="mt-8 flex min-h-20 items-center justify-center"
-              >
-                {isFetchingNextPage && (
-                  <span className="text-sm text-[#758B90]">
-                    در حال دریافت پست‌های بیشتر...
-                  </span>
-                )}
+        {!isLoading &&
+          !isError &&
+          visiblePosts.length > 0 && (
+            <>
+              <div className="mx-auto grid w-fit grid-cols-1 justify-items-center gap-5 md:grid-cols-3 md:gap-4">
+                {visiblePosts.map((post) => (
+                  <div
+                    key={post.id}
+                    className="w-full max-w-[360px] md:max-w-none"
+                  >
+                    <PostCard post={post} />
+                  </div>
+                ))}
               </div>
-            )}
 
-            {limit === undefined && isError && data && (
-              <ErrorState
-                message={error.message}
-                onRetry={fetchNextPage}
-              />
-            )}
-          </>
-        )}
+              {!isSearching &&
+                limit === undefined &&
+                hasNextPage && (
+                  <div
+                    ref={loadMoreRef}
+                    className="mt-8 flex min-h-20 items-center justify-center"
+                  >
+                    {isFetchingNextPage && (
+                      <span className="text-sm text-[#758B90]">
+                        در حال دریافت پست‌های بیشتر...
+                      </span>
+                    )}
+                  </div>
+                )}
+
+              {!isSearching &&
+                limit === undefined &&
+                isError &&
+                posts.length > 0 && (
+                  <ErrorState
+                    message={errorMessage}
+                    onRetry={fetchNextPage}
+                  />
+                )}
+            </>
+          )}
       </div>
     </section>
   );
 }
-
-
-
-

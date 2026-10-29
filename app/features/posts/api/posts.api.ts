@@ -2,9 +2,9 @@ import { ApiError } from "@/app/lib/error-handler";
 import api from "@/app/lib/api-helper";
 import type { PostListResponse, PostDetailResponse, } from "../types/posts.types";
 
-export async function getPost(limit:number, offset:number, search?: string): Promise<PostListResponse> {
+export async function getPost(limit:number, offset:number): Promise<PostListResponse> {
   const response = await api.get<PostListResponse>("post/", {
-    params:{limit, offset, ...(search ?{search}:{})} 
+    params:{limit, offset,} 
   });
 
   return response.data;
